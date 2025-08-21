@@ -832,6 +832,7 @@
           "node_type": { "type": "string" }, "title": { "type": "string" }, "index": { "type": "integer" },
           "predecessor_node_id": { "type": "string", "format": "uuid", "nullable": true },
           "inputs": { "type": "object", "additionalProperties": true, "description": "Variables used by the node." },
+          "inputs_truncated": { "type": "boolean" },
           "created_at": { "type": "integer", "format": "int64" }
         }
       },
@@ -853,8 +854,11 @@
           "node_type": { "type": "string" }, "title": { "type": "string" }, "index": { "type": "integer" },
           "predecessor_node_id": { "type": "string", "format": "uuid", "nullable": true },
           "inputs": { "type": "object", "additionalProperties": true, "nullable": true },
+          "inputs_truncated": { "type": "boolean" },
           "process_data": { "type": "object", "additionalProperties": true, "nullable": true, "description": "Node process data (JSON)." },
           "outputs": { "type": "object", "additionalProperties": true, "nullable": true, "description": "Output content (JSON)." },
+          "outputs_truncated": { "type": "boolean" },
+          "outputs_full_content": { "type": "object", "properties": { "download_url": { "type": "string", "format": "uri" } }, "nullable": true },
           "status": { "type": "string", "enum": ["running", "succeeded", "failed", "stopped"] },
           "error": { "type": "string", "nullable": true },
           "elapsed_time": { "type": "number", "format": "float", "nullable": true },
@@ -887,6 +891,8 @@
           "id": { "type": "string", "format": "uuid" }, "workflow_id": { "type": "string", "format": "uuid" },
           "status": { "type": "string", "enum": ["running", "succeeded", "failed", "stopped"] },
           "outputs": { "type": "object", "additionalProperties": true, "nullable": true, "description": "Output content (JSON)." },
+          "outputs_truncated": { "type": "boolean" },
+          "outputs_full_content": { "type": "object", "properties": { "download_url": { "type": "string", "format": "uri" } }, "nullable": true },
           "error": { "type": "string", "nullable": true },
           "elapsed_time": { "type": "number", "format": "float", "nullable": true },
           "total_tokens": { "type": "integer", "nullable": true },

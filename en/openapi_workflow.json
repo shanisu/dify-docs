@@ -356,7 +356,7 @@
       },
       "NodeStartedData": {
         "type": "object", "required": ["id", "node_id", "node_type", "title", "index", "created_at"],
-        "properties": { "id": { "type": "string", "format": "uuid" }, "node_id": { "type": "string", "format": "uuid" }, "node_type": { "type": "string" }, "title": { "type": "string" }, "index": { "type": "integer" }, "predecessor_node_id": { "type": "string", "format": "uuid", "nullable": true }, "inputs": { "type": "object", "additionalProperties": true }, "created_at": { "type": "integer", "format": "int64" } }
+        "properties": { "id": { "type": "string", "format": "uuid" }, "node_id": { "type": "string", "format": "uuid" }, "node_type": { "type": "string" }, "title": { "type": "string" }, "index": { "type": "integer" }, "predecessor_node_id": { "type": "string", "format": "uuid", "nullable": true }, "inputs": { "type": "object", "additionalProperties": true }, "inputs_truncated": { "type": "boolean" }, "created_at": { "type": "integer", "format": "int64" } }
       },
       "StreamEventWfTextChunk": {
         "allOf": [ { "$ref": "#/components/schemas/ChunkWorkflowEvent" }, { "$ref": "#/components/schemas/StreamEventBaseWf" },
@@ -372,7 +372,7 @@
       },
       "NodeFinishedData": {
         "type": "object", "required": ["id", "node_id", "node_type", "title", "index", "status", "created_at"],
-        "properties": { "id": { "type": "string", "format": "uuid" }, "node_id": { "type": "string", "format": "uuid" }, "node_type": { "type": "string" }, "title": { "type": "string" }, "index": { "type": "integer" }, "predecessor_node_id": { "type": "string", "format": "uuid", "nullable": true }, "inputs": { "type": "object", "additionalProperties": true, "nullable": true }, "process_data": { "type": "object", "additionalProperties": true, "nullable": true }, "outputs": { "type": "object", "additionalProperties": true, "nullable": true }, "status": { "type": "string", "enum": ["running", "succeeded", "failed", "stopped"] }, "error": { "type": "string", "nullable": true }, "elapsed_time": { "type": "number", "format": "float", "nullable": true }, "execution_metadata": { "$ref": "#/components/schemas/NodeExecutionMetadata" , "nullable": true }, "created_at": { "type": "integer", "format": "int64" } }
+        "properties": { "id": { "type": "string", "format": "uuid" }, "node_id": { "type": "string", "format": "uuid" }, "node_type": { "type": "string" }, "title": { "type": "string" }, "index": { "type": "integer" }, "predecessor_node_id": { "type": "string", "format": "uuid", "nullable": true }, "inputs": { "type": "object", "additionalProperties": true, "nullable": true }, "inputs_truncated": { "type": "boolean" }, "process_data": { "type": "object", "additionalProperties": true, "nullable": true }, "outputs": { "type": "object", "additionalProperties": true, "nullable": true }, "outputs_truncated": { "type": "boolean" }, "outputs_full_content": { "type": "object", "properties": { "download_url": { "type": "string", "format": "uri" } }, "nullable": true }, "status": { "type": "string", "enum": ["running", "succeeded", "failed", "stopped"] }, "error": { "type": "string", "nullable": true }, "elapsed_time": { "type": "number", "format": "float", "nullable": true }, "execution_metadata": { "$ref": "#/components/schemas/NodeExecutionMetadata" , "nullable": true }, "created_at": { "type": "integer", "format": "int64" } }
       },
       "NodeExecutionMetadata": {
           "type": "object", "properties": { "total_tokens": { "type": "integer", "nullable": true }, "total_price": { "type": "number", "format": "float", "nullable": true }, "currency": { "type": "string", "nullable": true, "example": "USD" } }
@@ -383,7 +383,7 @@
       },
       "WorkflowFinishedData": {
         "type": "object", "required": ["id", "workflow_id", "status", "created_at", "finished_at"],
-        "properties": { "id": { "type": "string", "format": "uuid" }, "workflow_id": { "type": "string", "format": "uuid" }, "status": { "type": "string", "enum": ["running", "succeeded", "failed", "stopped"] }, "outputs": { "type": "object", "additionalProperties": true, "nullable": true }, "error": { "type": "string", "nullable": true }, "elapsed_time": { "type": "number", "format": "float", "nullable": true }, "total_tokens": { "type": "integer", "nullable": true }, "total_steps": { "type": "integer", "default": 0 }, "created_at": { "type": "integer", "format": "int64" }, "finished_at": { "type": "integer", "format": "int64" } }
+        "properties": { "id": { "type": "string", "format": "uuid" }, "workflow_id": { "type": "string", "format": "uuid" }, "status": { "type": "string", "enum": ["running", "succeeded", "failed", "stopped"] }, "outputs": { "type": "object", "additionalProperties": true, "nullable": true }, "outputs_truncated": { "type": "boolean" }, "outputs_full_content": { "type": "object", "properties": { "download_url": { "type": "string", "format": "uri" } }, "nullable": true }, "error": { "type": "string", "nullable": true }, "elapsed_time": { "type": "number", "format": "float", "nullable": true }, "total_tokens": { "type": "integer", "nullable": true }, "total_steps": { "type": "integer", "default": 0 }, "created_at": { "type": "integer", "format": "int64" }, "finished_at": { "type": "integer", "format": "int64" } }
       },
       "StreamEventWfTtsMessage": {
         "allOf": [ { "$ref": "#/components/schemas/ChunkWorkflowEvent" }, { "$ref": "#/components/schemas/StreamEventBaseWf" },
@@ -405,7 +405,10 @@
             "workflow_id": { "type": "string", "format": "uuid" },
             "status": { "type": "string", "enum": ["running", "succeeded", "failed", "stopped"] },
             "inputs": { "type": "string", "description": "JSON string of input content." },
+            "inputs_truncated": { "type": "boolean" },
             "outputs": { "type": "object", "additionalProperties": true, "nullable": true, "description": "JSON object of output content." },
+            "outputs_truncated": { "type": "boolean" },
+            "outputs_full_content": { "type": "object", "properties": { "download_url": { "type": "string", "format": "uri" } }, "nullable": true },
             "error": { "type": "string", "nullable": true },
             "total_steps": { "type": "integer" },
             "total_tokens": { "type": "integer" },
